@@ -334,7 +334,7 @@
     const targetLanguage = $("#targetLanguage").val();
     setLoadingState(true); 
     $("#translationOutput").html("translating....");
-    axios.post('https://jsonplaceholder.org/users', {
+    axios.post('/api/translate', {
     text: sourceText,
   })
   .then(function (response) {

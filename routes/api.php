@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::post('/translate',function(Request $request){
+    $response = Http::post('https://8ef4-34-73-56-17.ngrok-free.app', [
+        'text' => $request->text,
+    ]);
+    return($response->json());
 });
