@@ -312,6 +312,7 @@
   <script src="vendors/owl-carousel/js/owl.carousel.min.js"></script>
   <script src="vendors/aos/js/aos.js"></script>
   <script src="js/landingpage.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js" integrity="sha512-WrdC3CE9vf1nBf58JHepuWT4x24uTacky9fuzw2g/3L9JkihgwZ6Cfv+JGTtNyosOhEmttMtEZ6H3qJWfI7gIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
   // Function to trigger the loader
   function setLoadingState(loading) {
@@ -327,29 +328,33 @@
     }
   }
 
-  $("#translateButton").click(function() {
-    console.log('sfsdf');
+  $("#translateButton").click(async function() {
     const sourceText = $("#sourceText").val();
     const sourceLanguage = $("#sourceLanguage").val();
     const targetLanguage = $("#targetLanguage").val();
-
-    // Simulate an API request with a delay
-    setLoadingState(true); // Activate the loader
+    setLoadingState(true); 
     $("#translationOutput").html("translating....");
-    setTimeout(function() {
-      // Simulate a successful response from the API
-      const translatedText = simulateTranslationAPI(sourceText, sourceLanguage, targetLanguage);
-      $("#translationOutput").html(translatedText);
+    axios.post('https://jsonplaceholder.org/users', {
+    text: sourceText,
+  })
+  .then(function (response) {
+    console.log(response.data.text);
+    setLoadingState(false);
+    $("#translationOutput").html(response.data.translation);
 
-      setLoadingState(false); // Deactivate the loader
-    }, 2000); // Simulate a 2-second delay, adjust as needed
+  })
+  .catch(function (error) {
+    console.log(error);
+    setLoadingState(false);
+    $("#translationOutput").html(sourceText.split("").reverse().join(""));
+  });
+ 
+
+   
   });
 
-  // Simulated translation function (replace with your actual API call)
-  function simulateTranslationAPI(text, sourceLanguage, targetLanguage) {
-    // Simulate translation here, for example, reversing the text
-    return text.split("").reverse().join("");
-  }
+ 
+
 </script>
 
 
